@@ -1,5 +1,6 @@
 ﻿using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sober.Api.Controllers.Base;
 using Sober.Application.Pages.Users.Commands;
@@ -53,7 +54,7 @@ public class UserController : ApiController
     }
 
 
-
+    [AllowAnonymous]
     [HttpGet]
     [Route("get-default-user")]
     public async Task<IActionResult> GetDefaultUser()
