@@ -1,5 +1,7 @@
-﻿namespace Sober.Contracts.Request;
+﻿using Microsoft.AspNetCore.Http;
 
-public record AdditionalSkillRequest(string Title, List<AdditionalSkillKeyRequest> Keys);
+namespace Sober.Contracts.Request;
+
+public record AdditionalSkillRequest(string Title, IFormFile Image, List<AdditionalSkillKeyRequest> Keys);
 
 public record AdditionalSkillKeyRequest(string Key);

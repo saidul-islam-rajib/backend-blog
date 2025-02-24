@@ -151,7 +151,8 @@ internal class InitialData
                     AdditionalKey.Create("Additional first key"),
                     AdditionalKey.Create("Additional second key"),
                     AdditionalKey.Create("Additional third key")
-                })
+                },
+                null)
         };
 
         return skills;

@@ -26,7 +26,8 @@ public class CreateAdditionalSkillCommandHandler
             request.Title,
             UserId.Create(request.UserId),
             request.Keys.ConvertAll(
-                key => AdditionalKey.Create(key.Key)));
+                key => AdditionalKey.Create(key.Key)),
+            request?.Image);
 
         // 2. Persist into DB
         _additionalSkillRepository.AddAdditionalSkillAsync(skills);

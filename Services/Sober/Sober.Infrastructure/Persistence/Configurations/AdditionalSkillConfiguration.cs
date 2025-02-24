@@ -25,6 +25,7 @@ public class AdditionalSkillConfiguration : IEntityTypeConfiguration<AdditionalS
             .ValueGeneratedNever();
 
         builder.Property(x => x.Title).HasMaxLength(100).IsRequired();
+        builder.Property(x => x.Image).IsRequired(false);
         builder.Property(x => x.UserId)
             .HasConversion(id => id.Value, value => UserId.Create(value))
             .IsRequired();

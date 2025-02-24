@@ -2,6 +2,6 @@
 
 
 public record AdditionalSkillResponse
-(Guid AdditionalSkillId, string UserId, string Title, List<AdditionalSkillKeyResponse> Keys);
+(Guid AdditionalSkillId, string UserId, string Title, string? Image, List<AdditionalSkillKeyResponse> Keys);
 
 public record AdditionalSkillKeyResponse(string AdditionalSkillKeyId, string Key);
