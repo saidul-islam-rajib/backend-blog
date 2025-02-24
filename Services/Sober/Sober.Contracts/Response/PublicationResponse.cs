@@ -4,6 +4,7 @@
         Guid PublicationId,
         string UserId,
         string Title,
+        string PublicationImage,
         string Summary,
         List<PublicationKeyResponse> Keys,
         string JournalName,

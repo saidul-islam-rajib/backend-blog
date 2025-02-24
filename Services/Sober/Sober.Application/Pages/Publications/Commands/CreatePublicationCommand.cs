@@ -8,6 +8,7 @@ public record CreatePublicationCommand
 (
     Guid UserId,
     string Title,
+    string PublicationImage,
     string Summary,
     List<PublicationKeyCommand> Keys,
     string JournalName,

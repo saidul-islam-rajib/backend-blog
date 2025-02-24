@@ -11,14 +11,16 @@ public class PublicationMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<(PublicationRequest Request, Guid UserId), CreatePublicationCommand>()
+        config.NewConfig<(PublicationRequest Request, Guid UserId, string ImagePath), CreatePublicationCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest.PublicationImage, src => src.ImagePath)
             .Map(dest => dest, src => src.Request);
 
         config.NewConfig<Publication, PublicationResponse>()
             .Map(dest => dest.PublicationId, src => src.Id.Value)
             .Map(dest => dest.UserId, src => src.UserId.Value)
             .Map(dest => dest.Title, src => src.Title)
+            .Map(dest => dest.PublicationImage, src => src.PublicationImage)
             .Map(dest => dest.JournalName, src => src.JournalName)
             .Map(dest => dest.Summary, src => src.Summary);
 

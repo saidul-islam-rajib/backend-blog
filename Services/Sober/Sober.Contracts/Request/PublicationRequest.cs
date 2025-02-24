@@ -1,7 +1,10 @@
-﻿namespace Sober.Contracts.Request
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Sober.Contracts.Request
 {
     public record PublicationRequest(
-        string Title,        
+        string Title,
+        IFormFile PublicationImage,
         string Summary,
         List<PublicationKeyRequest> Keys,
         string JournalName,

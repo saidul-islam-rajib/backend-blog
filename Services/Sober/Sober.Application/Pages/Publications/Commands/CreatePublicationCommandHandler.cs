@@ -29,7 +29,8 @@ public class CreatePublicationCommandHandler
             request.Keys.ConvertAll(
                 key => PublicationKey.Create(key.Key)),
             request?.JournalName,
-            request?.Date);
+            request?.Date,
+            request?.PublicationImage);
 
         // 2. Persist into DB
         _repository.AddPublication(publication);
