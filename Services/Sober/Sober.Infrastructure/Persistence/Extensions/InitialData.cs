@@ -101,7 +101,8 @@ internal class InitialData
                     PublicationKey.Create("AHP"),
                 },
                 "Journal Name Not Found!",
-                new DateTime(2025, 01, 11)),
+                new DateTime(2025, 01, 11),
+                null),
 
             Publication.Create(
                 "A method for finding eligible employees based on specification v2",
@@ -112,6 +113,7 @@ internal class InitialData
                 {
                     PublicationKey.Create("ELECTRE")
                 },
+                null,
                 null,
                 null)
         };
