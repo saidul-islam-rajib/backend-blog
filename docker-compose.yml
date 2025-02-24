@@ -1,0 +1,9 @@
+services:
+  personalblogdb:
+    image: mcr.microsoft.com/mssql/server
+
+  sober.api:
+    image: ${DOCKER_REGISTRY-}soberapi
+    build:
+      context: .
+      dockerfile: Services/Sober/Sober.Api/Dockerfile

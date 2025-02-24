@@ -1,0 +1,24 @@
+services:
+  personalblogdb:
+    container_name: personalblogdb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Test@123
+    restart: always
+    ports:
+      - "1433:1433"
+
+  sober.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Server=personalblogdb;Database=PersonalBlogDb;User Id=sa;Password=Test@123;Encrypt=False;TrustServerCertificate=True
+    depends_on:
+      - personalblogdb
+    ports:
+      - "7001:8080"
+      - "7071:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
