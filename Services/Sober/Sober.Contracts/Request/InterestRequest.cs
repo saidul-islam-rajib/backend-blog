@@ -1,7 +1,9 @@
-﻿namespace Sober.Contracts.Request;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Sober.Contracts.Request;
 
 public record InterestRequest
-(string Title, List<InterestKeyRequest> Keys);
+(string Title, IFormFile Image, List<InterestKeyRequest> Keys);
 
 public record InterestKeyRequest(string Key);
 

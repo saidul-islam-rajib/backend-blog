@@ -26,7 +26,8 @@ public class InterestCommandHandler
             request.Title,
             UserId.Create(request.UserId),
             request.Keys.ConvertAll(
-                key => InterestKey.Create(key.Key)));
+                key => InterestKey.Create(key.Key)),
+            request?.Image);
 
         // 2. Persist into DB
         _repository.AddInterest(interest);

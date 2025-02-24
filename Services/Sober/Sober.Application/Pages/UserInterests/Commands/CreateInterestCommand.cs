@@ -8,6 +8,7 @@ public record CreateInterestCommand
 (
     Guid UserId,
     string Title,
+    string Image,
     List<InterestKeyCommand> Keys
 ) : IRequest<ErrorOr<Interest>>;
 

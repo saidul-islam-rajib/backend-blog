@@ -132,7 +132,8 @@ internal class InitialData
                 {
                     InterestKey.Create("First Interest Key"),
                     InterestKey.Create("Second Interest Key")
-                })            
+                },
+                null)
         };
 
         return publications;

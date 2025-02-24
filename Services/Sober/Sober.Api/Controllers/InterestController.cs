@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sober.Api.Controllers.Base;
+using Sober.Application.Common.Interfaces.Services;
 using Sober.Application.Pages.UserInterests.Commands;
 using Sober.Application.Pages.UserInterests.Queries;
 using Sober.Contracts.Request;
@@ -15,11 +16,13 @@ public class InterestController : ApiController
 {
     private readonly IMapper _mapper;
     private readonly ISender _mediator;
+    private readonly IFileService _fileService;
 
-    public InterestController(IMapper mapper, ISender mediator)
+    public InterestController(IMapper mapper, ISender mediator, IFileService fileService)
     {
         _mapper = mapper;
         _mediator = mediator;
+        _fileService = fileService;
     }
 
     [AllowAnonymous]
@@ -36,9 +39,10 @@ public class InterestController : ApiController
 
     [HttpPost]
     [Route("users/{userId}/create-interest")]
-    public async Task<IActionResult> CreateInterest(InterestRequest request, Guid userId)
+    public async Task<IActionResult> CreateInterest([FromForm] InterestRequest request, Guid userId)
     {
-        var command = _mapper.Map<CreateInterestCommand>((request, userId));
+        string logoPath = await _fileService.SaveFileAsync(request.Image);
+        var command = _mapper.Map<CreateInterestCommand>((request, userId, logoPath));
         var result = await _mediator.Send(command);
 
         var response = result.Match(
