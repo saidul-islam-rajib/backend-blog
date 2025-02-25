@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sober.Api.Controllers.Base;
+using Sober.Application.Common.Interfaces.Services;
 using Sober.Application.Posts.Commands;
 using Sober.Application.Posts.Queries.Query;
 using Sober.Contracts.Request.Posts;
@@ -16,11 +17,13 @@ public class PostsController : ApiController
 {
     private readonly IMapper _mapper;
     private readonly ISender _mediator;
+    private readonly IFileService _fileService;
 
-    public PostsController(IMapper mapper, ISender mediator)
+    public PostsController(IMapper mapper, ISender mediator, IFileService fileService)
     {
         _mapper = mapper;
         _mediator = mediator;
+        _fileService = fileService;
     }
 
     [AllowAnonymous]
@@ -38,9 +41,10 @@ public class PostsController : ApiController
 
     [HttpPost]
     [Route("users/{userId}/create-new-post")]
-    public async Task<IActionResult> CreatePostRequestAsync(PostRequest request, Guid userId)
+    public async Task<IActionResult> CreatePostRequestAsync([FromForm]  PostRequest request, Guid userId)
     {
-        var command = _mapper.Map<CreatePostCommand>((request, userId));
+        string postImagePath = await _fileService.SaveFileAsync(request.PostImage);
+        var command = _mapper.Map<CreatePostCommand>((request, userId, postImagePath));
         var result = await _mediator.Send(command);
 
         var response = result.Match(

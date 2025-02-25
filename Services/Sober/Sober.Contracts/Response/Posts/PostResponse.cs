@@ -23,8 +23,7 @@
         string ItemId,
         string ItemTitle,
         string? ItemImage,
-        string ItemDescription,
-        string ItemImageLink);
+        string ItemDescription);
 
     public record TopicResponse(
         string TopicId,

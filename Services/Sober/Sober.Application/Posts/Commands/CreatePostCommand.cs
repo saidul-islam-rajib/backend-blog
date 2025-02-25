@@ -7,7 +7,7 @@ namespace Sober.Application.Posts.Commands
     public record CreatePostCommand(
         Guid UserId,
         string PostTitle,
-        string? PostImage,
+        string PostImage,
         string PostAbstract,
         string? Conclusion,
         int ReadingMinute,
@@ -22,9 +22,8 @@ namespace Sober.Application.Posts.Commands
 
     public record PostSectionItemCommand(
         string ItemTitle,
-        string? ItemImage,
-        string ItemDescription,
-        string ItemImageLink);
+        string ItemImage,
+        string ItemDescription);
 
     public record TopicCommand(
         Guid UserId,

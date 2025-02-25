@@ -4,7 +4,7 @@ namespace Sober.Contracts.Request.Posts
 {
     public record PostRequest(
         string PostTitle,
-        IFormFile? PostImage,
+        IFormFile PostImage,
         string PostAbstract,
         string Conclusion,
         int ReadingMinute,
@@ -18,9 +18,8 @@ namespace Sober.Contracts.Request.Posts
 
     public record PostSectionItemRequest(
         string ItemTitle,
-        IFormFile? ItemImage,
-        string ItemDescription,
-        string ItemImageLink);
+        IFormFile ItemImage,
+        string ItemDescription);
 
     public record TopicRequest(
         string TopicTitle,
