@@ -22,13 +22,18 @@ public class PostMappingConfig : IRegister
             .Map(dest => dest.PostAbstract, src => src.Request.PostAbstract)
             .Map(dest => dest.Conclusion, src => src.Request.Conclusion)
             .Map(dest => dest.ReadingMinute, src => src.Request.ReadingMinute)
-            .Map(dest => dest.Sections, src => src.Request.Sections)
-            .Map(dest => dest.Topics, src => src.Request.Topics);
+            .Map(dest => dest.Topics, src => src.Request.Topics)
+            .Map(dest => dest.Sections, src => src.Request.Sections.Select(section => section.Adapt<PostSectionCommand>()));
 
-        config.NewConfig<PostSectionRequest, PostSectionCommand>();
+        config.NewConfig<PostSectionRequest, PostSectionCommand>()
+            .Map(dest => dest.SectionTitle, src => src.SectionTitle)
+            .Map(dest => dest.SectionDescription, src => src.SectionDescription)
+            .Map(dest => dest.Items, src => src.Items.Adapt<List<PostSectionItemCommand>>());
 
         config.NewConfig<PostSectionItemRequest, PostSectionItemCommand>()
-            .Map(dest => dest.ItemImage, src => src.ItemImage.FileName);
+            .Map(dest => dest.ItemTitle, src => src.ItemTitle)
+            .Map(dest => dest.ItemImage, src => src.ItemImage)
+            .Map(dest => dest.ItemDescription, src => src.ItemDescription);
 
         config.NewConfig<TopicRequest, TopicCommand>()
             .Map(dest => dest.UserId, src => Guid.Parse(src.UserId));

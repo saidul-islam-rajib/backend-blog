@@ -18,7 +18,7 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
 
     public async Task<ErrorOr<Post>> Handle(CreatePostCommand request, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
+        await Task.CompletedTask;        
 
         // 1. Create Post
         Post post = Post.Create(

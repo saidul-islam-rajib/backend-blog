@@ -41,10 +41,53 @@ public class PostsController : ApiController
 
     [HttpPost]
     [Route("users/{userId}/create-new-post")]
-    public async Task<IActionResult> CreatePostRequestAsync([FromForm]  PostRequest request, Guid userId)
+    public async Task<IActionResult> CreatePostRequestAsync([FromForm] PostRequest request, Guid userId)
     {
         string postImagePath = await _fileService.SaveFileAsync(request.PostImage);
-        var command = _mapper.Map<CreatePostCommand>((request, userId, postImagePath));
+
+        var updatedSections = new List<PostSectionCommand>();
+
+        foreach (var section in request.Sections)
+        {
+            var updatedItems = new List<PostSectionItemCommand>();
+
+            foreach (var item in section.Items)
+            {
+                // Save the file and store the path
+                string itemImagePath = item.ItemImage != null ? await _fileService.SaveFileAsync(item.ItemImage) : "";
+
+                // Create a new DTO with string file path
+                var updatedItem = new PostSectionItemCommand(
+                    item.ItemTitle,
+                    itemImagePath, // Now it's a string
+                    item.ItemDescription
+                );
+
+                updatedItems.Add(updatedItem);
+            }
+
+            // Create a new DTO for sections
+            var updatedSection = new PostSectionCommand(
+                section.SectionTitle,
+                section.SectionDescription,
+                updatedItems
+            );
+
+            updatedSections.Add(updatedSection);
+        }
+
+        // Map to command object
+        var command = new CreatePostCommand(
+            userId,
+            request.PostTitle,
+            postImagePath,  // Use saved file path
+            request.PostAbstract,
+            request.Conclusion,
+            request.ReadingMinute,
+            _mapper.Map<List<PostSectionCommand>>(updatedSections), // Map to domain model
+            _mapper.Map<List<TopicCommand>>(request.Topics)
+        );
+
         var result = await _mediator.Send(command);
 
         var response = result.Match(
@@ -53,6 +96,8 @@ public class PostsController : ApiController
 
         return response;
     }
+
+
 
     [AllowAnonymous]
     [HttpGet]
