@@ -13,6 +13,7 @@ namespace Sober.Contracts.Request.Posts
 
     public record PostSectionRequest(
         string SectionTitle,
+        IFormFile SectionImage,
         string SectionDescription,
         List<PostSectionItemRequest> Items);
 

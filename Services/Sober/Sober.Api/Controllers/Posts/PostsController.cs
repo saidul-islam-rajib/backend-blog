@@ -49,6 +49,7 @@ public class PostsController : ApiController
 
         foreach (var section in request.Sections)
         {
+            var sectionImage = await _fileService.SaveFileAsync(section.SectionImage);
             var updatedItems = new List<PostSectionItemCommand>();
 
             foreach (var item in section.Items)
@@ -65,6 +66,7 @@ public class PostsController : ApiController
 
             var updatedSection = new PostSectionCommand(
                 section.SectionTitle,
+                sectionImage,
                 section.SectionDescription,
                 updatedItems
             );

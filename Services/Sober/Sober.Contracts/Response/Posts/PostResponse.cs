@@ -16,6 +16,7 @@
     public record PostSectionResponse(
         string SectionId,
         string SectionTitle,
+        string SectionImage,
         string SectionDescription,
         List<PostSectionItemResponse> Items);
 

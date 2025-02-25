@@ -49,6 +49,7 @@ namespace Sober.Infrastructure.Persistence.Configurations
                   .HasColumnName("PostSectionId")                  
                   .HasConversion(id => id.Value, value => PostSectionId.Create(value));
                 sb.Property(s => s.SectionTitle).HasMaxLength(100);
+                sb.Property(s => s.SectionImage).IsRequired(false);
                 sb.Property(s => s.SectionDescription).HasMaxLength(1000);
 
                 sb.OwnsMany(s => s.Items, ib =>

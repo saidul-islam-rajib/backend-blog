@@ -17,6 +17,7 @@ namespace Sober.Application.Posts.Commands
 
     public record PostSectionCommand(
         string SectionTitle,
+        string SectionImage,
         string SectionDescription,
         List<PostSectionItemCommand> Items);
 

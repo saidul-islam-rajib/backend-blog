@@ -255,7 +255,8 @@ internal class InitialData
                                     "item description 2",
                                     "second.png"
                                 )
-                            }
+                            },
+                            null
                         )
                     },
                     new List<PostTopic>

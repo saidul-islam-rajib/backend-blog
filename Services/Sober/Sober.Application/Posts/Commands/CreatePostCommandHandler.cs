@@ -33,7 +33,8 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Error
                 section.Items.ConvertAll(item => PostItem.Create(
                     item.ItemTitle,
                     item.ItemDescription,
-                    item.ItemImage)))),
+                    item.ItemImage)),
+                section.SectionImage)),
             topics: request.Topics.ConvertAll(topic => PostTopic.Create(
                 UserId.Create(request.UserId),
                 topic.TopicTitle)),

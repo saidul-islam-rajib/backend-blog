@@ -27,6 +27,7 @@ public class PostMappingConfig : IRegister
 
         config.NewConfig<PostSectionRequest, PostSectionCommand>()
             .Map(dest => dest.SectionTitle, src => src.SectionTitle)
+            .Map(dest => dest.SectionImage, src => src.SectionImage)
             .Map(dest => dest.SectionDescription, src => src.SectionDescription)
             .Map(dest => dest.Items, src => src.Items.Adapt<List<PostSectionItemCommand>>());
 
