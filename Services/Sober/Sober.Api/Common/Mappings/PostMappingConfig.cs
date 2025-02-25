@@ -13,27 +13,27 @@ public class PostMappingConfig : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<PaginationResult<Post>, PaginationResult<PostResponse>>()
-            .Map(dest => dest.Data, src => src.Data);
+                .Map(dest => dest.Data, src => src.Data);
 
-        config.NewConfig<(PostRequest Request, Guid UserId, string PostImagePath), CreatePostCommand>()
+        config.NewConfig<(PostRequest Request, Guid UserId, string PostImagePath, List<PostSectionCommand> Sections), CreatePostCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
-            .Map(dest => dest.PostImage, src => src.PostImagePath)
             .Map(dest => dest.PostTitle, src => src.Request.PostTitle)
+            .Map(dest => dest.PostImage, src => src.PostImagePath) // Handled separately
             .Map(dest => dest.PostAbstract, src => src.Request.PostAbstract)
             .Map(dest => dest.Conclusion, src => src.Request.Conclusion)
             .Map(dest => dest.ReadingMinute, src => src.Request.ReadingMinute)
-            .Map(dest => dest.Topics, src => src.Request.Topics)
-            .Map(dest => dest.Sections, src => src.Request.Sections.Select(section => section.Adapt<PostSectionCommand>()));
+            .Map(dest => dest.Topics, src => src.Request.Topics.Adapt<List<TopicCommand>>()) // Direct mapping
+            .Map(dest => dest.Sections, src => src.Sections);
 
         config.NewConfig<PostSectionRequest, PostSectionCommand>()
             .Map(dest => dest.SectionTitle, src => src.SectionTitle)
-            .Map(dest => dest.SectionImage, src => src.SectionImage)
+            .Map(dest => dest.SectionImage, src => src.SectionImage) // Handled separately
             .Map(dest => dest.SectionDescription, src => src.SectionDescription)
             .Map(dest => dest.Items, src => src.Items.Adapt<List<PostSectionItemCommand>>());
 
         config.NewConfig<PostSectionItemRequest, PostSectionItemCommand>()
             .Map(dest => dest.ItemTitle, src => src.ItemTitle)
-            .Map(dest => dest.ItemImage, src => src.ItemImage)
+            .Map(dest => dest.ItemImage, src => src.ItemImage) // Handled separately
             .Map(dest => dest.ItemDescription, src => src.ItemDescription);
 
         config.NewConfig<TopicRequest, TopicCommand>()

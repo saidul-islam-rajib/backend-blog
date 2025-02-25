@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Pagination;
+using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -25,66 +26,33 @@ public class PostsController : ApiController
         _mediator = mediator;
         _fileService = fileService;
     }
-
-    [AllowAnonymous]
-    [HttpGet]
-    [Route("get-paginated-posts")]
-    public async Task<IActionResult> GetPaginatedPost([FromQuery] int pageIndex, [FromQuery] int pageSize=10)
-    {
-        var query = new GetPaginatedPostsQuery(pageIndex, pageSize);
-        var paginatedPosts = await _mediator.Send(query);
-
-        var response = _mapper.Map<PaginationResult<PostResponse>>(paginatedPosts);
-
-        return Ok(response);
-    }
+    
 
     [HttpPost]
     [Route("users/{userId}/create-new-post")]
     public async Task<IActionResult> CreatePostRequestAsync([FromForm] PostRequest request, Guid userId)
     {
+        // Handle post image upload
         string postImagePath = await _fileService.SaveFileAsync(request.PostImage);
 
-        var updatedSections = new List<PostSectionCommand>();
-
-        foreach (var section in request.Sections)
+        // Process sections and items separately
+        var updatedSections = await Task.WhenAll(request.Sections.Select(async section =>
         {
-            var sectionImage = await _fileService.SaveFileAsync(section.SectionImage);
-            var updatedItems = new List<PostSectionItemCommand>();
+            string sectionImagePath = await _fileService.SaveFileAsync(section.SectionImage);
 
-            foreach (var item in section.Items)
+            var updatedItems = await Task.WhenAll(section.Items.Select(async item =>
             {
                 string itemImagePath = item.ItemImage != null ? await _fileService.SaveFileAsync(item.ItemImage) : "";
-                var updatedItem = new PostSectionItemCommand(
-                    item.ItemTitle,
-                    itemImagePath,
-                    item.ItemDescription
-                );
+                return new PostSectionItemCommand(item.ItemTitle, itemImagePath, item.ItemDescription);
+            }));
 
-                updatedItems.Add(updatedItem);
-            }
+            return new PostSectionCommand(section.SectionTitle, sectionImagePath, section.SectionDescription, updatedItems.ToList());
+        }));
 
-            var updatedSection = new PostSectionCommand(
-                section.SectionTitle,
-                sectionImage,
-                section.SectionDescription,
-                updatedItems
-            );
+        // Use Mapster to map the request to the command
+        var command = (request, userId, postImagePath, updatedSections.ToList()).Adapt<CreatePostCommand>();
 
-            updatedSections.Add(updatedSection);
-        }
-
-        var command = new CreatePostCommand(
-            userId,
-            request.PostTitle,
-            postImagePath,
-            request.PostAbstract,
-            request.Conclusion,
-            request.ReadingMinute,
-            _mapper.Map<List<PostSectionCommand>>(updatedSections),
-            _mapper.Map<List<TopicCommand>>(request.Topics)
-        );
-
+        // Send command using Mediator
         var result = await _mediator.Send(command);
 
         var response = result.Match(
@@ -92,6 +60,19 @@ public class PostsController : ApiController
             errors => Problem(errors));
 
         return response;
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("get-paginated-posts")]
+    public async Task<IActionResult> GetPaginatedPost([FromQuery] int pageIndex, [FromQuery] int pageSize = 10)
+    {
+        var query = new GetPaginatedPostsQuery(pageIndex, pageSize);
+        var paginatedPosts = await _mediator.Send(query);
+
+        var response = _mapper.Map<PaginationResult<PostResponse>>(paginatedPosts);
+
+        return Ok(response);
     }
 
 
