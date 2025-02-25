@@ -53,20 +53,16 @@ public class PostsController : ApiController
 
             foreach (var item in section.Items)
             {
-                // Save the file and store the path
                 string itemImagePath = item.ItemImage != null ? await _fileService.SaveFileAsync(item.ItemImage) : "";
-
-                // Create a new DTO with string file path
                 var updatedItem = new PostSectionItemCommand(
                     item.ItemTitle,
-                    itemImagePath, // Now it's a string
+                    itemImagePath,
                     item.ItemDescription
                 );
 
                 updatedItems.Add(updatedItem);
             }
 
-            // Create a new DTO for sections
             var updatedSection = new PostSectionCommand(
                 section.SectionTitle,
                 section.SectionDescription,
@@ -76,15 +72,14 @@ public class PostsController : ApiController
             updatedSections.Add(updatedSection);
         }
 
-        // Map to command object
         var command = new CreatePostCommand(
             userId,
             request.PostTitle,
-            postImagePath,  // Use saved file path
+            postImagePath,
             request.PostAbstract,
             request.Conclusion,
             request.ReadingMinute,
-            _mapper.Map<List<PostSectionCommand>>(updatedSections), // Map to domain model
+            _mapper.Map<List<PostSectionCommand>>(updatedSections),
             _mapper.Map<List<TopicCommand>>(request.Topics)
         );
 
