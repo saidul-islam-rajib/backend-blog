@@ -12,7 +12,7 @@ namespace Sober.Application.Pages.Educations.Commands
         bool IsCurrentStudent,
         List<EducationSectionCommand> EducationSection,
         DateTime StartDate,
-        DateTime EndDate) : IRequest<ErrorOr<Education>>;
+        DateTime? EndDate) : IRequest<ErrorOr<Education>>;
 
     public record EducationSectionCommand(string SectionDescripton);
 }

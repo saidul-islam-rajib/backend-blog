@@ -9,7 +9,7 @@ namespace Sober.Contracts.Request
         bool IsCurrentStudent,
         List<EducationSectionRequest> EducationSection,
         DateTime StartDate,
-        DateTime EndDate);
+        DateTime? EndDate);
 
     public record EducationSectionRequest(string SectionDescripton);
 }

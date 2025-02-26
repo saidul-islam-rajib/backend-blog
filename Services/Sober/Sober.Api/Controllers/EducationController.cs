@@ -26,6 +26,7 @@ namespace Sober.Api.Controllers
             _fileService = fileService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("users/{userId}/create")]
         public async Task<IActionResult> CreateEducation([FromForm] EducationRequest request, Guid userId)
