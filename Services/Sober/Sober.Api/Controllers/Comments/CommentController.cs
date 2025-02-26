@@ -23,6 +23,7 @@ public class CommentController : ApiController
         _mediator = mediator;
     }
 
+    [AllowAnonymous]
     [HttpPost]
     [Route("posts/{postId}/create-comment")]
     public async Task<IActionResult> CreateComment(CommentRequest request, Guid postId)

@@ -23,6 +23,7 @@ public class FeedbackController : ApiController
         _sender = sender;
     }
 
+    [AllowAnonymous]
     [HttpPost]
     [Route("create")]
     public async Task<IActionResult> CreateFeedback(FeedbackRequest request)
