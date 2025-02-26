@@ -70,6 +70,7 @@ public class UserController : ApiController
         return Ok(response);
     }
 
+    [AllowAnonymous]
     [HttpGet]
     [Route("{userId}")]
     public async Task<IActionResult> GetUserById(Guid userId)

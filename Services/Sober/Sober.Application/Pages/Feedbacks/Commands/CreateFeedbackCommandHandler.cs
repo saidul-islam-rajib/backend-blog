@@ -22,9 +22,9 @@ public class CreateFeedbackCommandHandler
         // 1. Create Feedback
         Feedback feedback = Feedback.Create(
             request.Email,
-            request.Name,
+            request.Name ?? "Unnamed",
             request.Comment,
-            request.GuestIpAddress);
+            request.GuestIpAddress ?? "No IP address");
 
         // 2. Persist into DB
         _repository.CreateFeedback(feedback);
