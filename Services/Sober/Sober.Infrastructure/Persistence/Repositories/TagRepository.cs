@@ -58,18 +58,32 @@ public class TagRepository : ITagRepository
 
     public async Task<IEnumerable<TagWithTopicResponse>> GetTagWithTopicAsync(CancellationToken cancellationToken)
     {
-        var result = await _dbContext.Tags
-        .Include(tag => tag.Topic)
-        .GroupBy(x => new { x.Topic.Id, x.Topic.TopicName })
-        .Select(group => new TagWithTopicResponse(
-            group.Key.Id.Value,
-            group.Key.TopicName,
+        //var result = await _dbContext.Tags
+        //.Include(tag => tag.Topic)
+        //.GroupBy(x => new { x.Topic.Id, x.Topic.TopicName })
+        //.Select(group => new TagWithTopicResponse(
+        //    group.Key.Id.Value,
+        //    group.Key.TopicName,
 
-            group.Select(tag => new TagInformation(
-                tag.Id.Value,
-                tag.TagName
-                )).ToList()
-        )).ToListAsync(cancellationToken);
+        //    group.Select(tag => new TagInformation(
+        //        tag.Id.Value,
+        //        tag.TagName
+        //        )).ToList()
+        //)).ToListAsync(cancellationToken);
+
+        var result = await (from tag in _dbContext.Tags
+                            join topic in _dbContext.Topics
+                            on tag.TopicId equals topic.Id
+                            group tag by new { topic.Id, topic.TopicName } into grouped
+                            select new TagWithTopicResponse(
+                                grouped.Key.Id.Value,
+                                grouped.Key.TopicName,
+                                grouped.Select(tag => new TagInformation(
+                                    tag.Id.Value,
+                                    tag.TagName
+                                )).ToList()
+                            ))
+                        .ToListAsync(cancellationToken);
 
         return result;
     }

@@ -9,7 +9,7 @@ public sealed class Tag : AggregateRoot<TagId>
 {
     public string TagName { get; set; } = null!;
     public TopicId TopicId { get; private set; } = null!;
-    public Topic Topic { get; private set; } = null!;
+    //public Topic Topic { get; private set; } = null!;
     private Tag(TagId tagId, string tagName, TopicId topicId) : base(tagId)
     {
         TagName = tagName;

@@ -39,9 +39,9 @@ public class TagController : ApiController
 
     [HttpPost]
     [Route("user/{userId}/create")]
-    public async Task<IActionResult> CreateTagAsync(TagRequest request)
+    public async Task<IActionResult> CreateTagAsync(TagRequest request, Guid userId)
     {
-        var command = _mapper.Map<CreateTagCommand>(request);
+        var command = _mapper.Map<CreateTagCommand>((request, userId));
         var result = await _mediator.Send(command);
 
         var response = result.Match(tag => Ok(_mapper.Map<TagResponse>(tag)),

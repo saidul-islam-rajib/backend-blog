@@ -26,7 +26,6 @@ public class ExperienceController : ApiController
         _fileService = fileService;
     }
 
-    [AllowAnonymous]
     [HttpPost]
     [Route("users/{userId}/create")]
     public async Task<IActionResult> CreateExperience([FromForm] ExperienceRequest request, Guid userId)

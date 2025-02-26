@@ -26,9 +26,8 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
         builder.Property(x => x.TopicId)
             .HasConversion(id => id.Value, value => TopicId.Create(value)).IsRequired();
 
-        builder.HasOne(t => t.Topic)
-        .WithMany()
-        .HasForeignKey(tag => tag.TopicId)
-        .OnDelete(DeleteBehavior.Restrict);
+        builder.Property(x => x.TopicId)
+        .HasConversion(id => id.Value, value => TopicId.Create(value))
+        .IsRequired();
     }
 }
