@@ -1,11 +1,13 @@
-﻿namespace Sober.Contracts.Request
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Sober.Contracts.Request
 {
     public record ProjectRequest(
         Guid PostId,
         string ProjectTitle,
         string ProjectSummary,
         string ProjectSrcLink,
-        string ProjectImage,
+        IFormFile ProjectImage,
         List<ProjectTopicRequest> ProjectTopics,
         DateTime DisplayDate,
         DateTime StartDate,

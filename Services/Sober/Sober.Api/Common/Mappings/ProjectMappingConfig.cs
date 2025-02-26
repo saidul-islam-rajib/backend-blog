@@ -2,8 +2,6 @@
 using Sober.Application.Pages.Projects.Commands;
 using Sober.Contracts.Request;
 using Sober.Contracts.Response;
-using Sober.Contracts.Response.Posts;
-using Sober.Domain.Aggregates.PostAggregate.Entities;
 using Sober.Domain.Aggregates.ProjectAggregates;
 using Sober.Domain.Aggregates.ProjectAggregates.Entities;
 
@@ -13,8 +11,9 @@ public class ProjectMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<(ProjectRequest Request, Guid UserId), CreateProjectCommand>()
+        config.NewConfig<(ProjectRequest Request, Guid UserId, string ImagePath), CreateProjectCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest.ProjectImage, src => src.ImagePath)
             .Map(dest => dest, src => src.Request);
 
         config.NewConfig<Project, ProjectResponse>()
