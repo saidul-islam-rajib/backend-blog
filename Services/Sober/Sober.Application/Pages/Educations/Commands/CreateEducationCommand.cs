@@ -14,5 +14,5 @@ namespace Sober.Application.Pages.Educations.Commands
         DateTime StartDate,
         DateTime? EndDate) : IRequest<ErrorOr<Education>>;
 
-    public record EducationSectionCommand(string SectionDescripton);
+    public record EducationSectionCommand(string SectionDescription);
 }

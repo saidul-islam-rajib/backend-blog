@@ -15,7 +15,11 @@ namespace Sober.Api.Common.Mappings
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.IsCurrentStudent, src => src.Request.IsCurrentStudent)
                 .Map(dest => dest.InstituteLogo, src => src.LogoPath)
+                .Map(dest => dest.EducationSection, src => src.Request.EducationSection)
                 .Map(dest => dest, src => src.Request);
+
+            config.NewConfig<EducationSectionRequest, EducationSectionCommand>()
+                .Map(dest => dest.SectionDescription, src => src.SectionDescription);
 
             config.NewConfig<Education, EducationResponse>()
                 .Map(dest => dest.EducationId, src => src.Id.Value)

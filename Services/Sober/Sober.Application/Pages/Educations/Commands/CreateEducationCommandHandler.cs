@@ -27,7 +27,7 @@ namespace Sober.Application.Pages.Educations.Commands
                 request.InstituteLogo,
                 request.Department,
                 request.IsCurrentStudent,
-                request.EducationSection.ConvertAll(section => EducationSection.Create(section.SectionDescripton)),
+                request.EducationSection.ConvertAll(section => EducationSection.Create(section.SectionDescription)),
                 request.StartDate,
                 request.EndDate);
 
