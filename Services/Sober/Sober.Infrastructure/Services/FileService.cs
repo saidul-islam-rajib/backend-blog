@@ -39,13 +39,6 @@ public class FileService : IFileService
         string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
         Directory.CreateDirectory(uploadsFolder);
 
-        // Check if an existing file with the same original name exists and delete it
-        var existingFiles = Directory.GetFiles(uploadsFolder, $"{originalFileName}_*{fileExtension}");
-        foreach (var existingFile in existingFiles)
-        {
-            File.Delete(existingFile);
-        }
-
         string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
         // Save the file

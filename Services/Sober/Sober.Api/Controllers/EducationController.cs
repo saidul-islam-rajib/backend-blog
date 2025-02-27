@@ -30,7 +30,6 @@ public class EducationController : ApiController
     [Route("create/user/{userId}")]
     public async Task<IActionResult> CreateEducation([FromForm] EducationRequest request, Guid userId)
     {
-        Console.WriteLine($"EducationSection count: {request.EducationSection?.Count}");
         string logoPath = await _fileService.SaveFileAsync(request.InstituteLogo);
 
         var command = _mapper.Map<CreateEducationCommand>((request, userId, logoPath));
