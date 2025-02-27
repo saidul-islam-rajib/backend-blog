@@ -17,7 +17,7 @@ namespace Sober.Application.Pages.Educations.Queries.QueryHandler
 
         public async Task<IEnumerable<Education>> Handle(GetEducationQuery request, CancellationToken cancellationToken)
         {
-            var response = await _educationRepository.GetAllEducations();
+            var response = await _educationRepository.GetAllEducationsAsync();
             return response;
         }
     }

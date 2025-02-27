@@ -3,48 +3,54 @@ using Sober.Application.Interfaces;
 using Sober.Domain.Aggregates.EducationAggregate;
 using Sober.Domain.Aggregates.EducationAggregate.ValueObjects;
 
-namespace Sober.Infrastructure.Persistence.Repositories
+namespace Sober.Infrastructure.Persistence.Repositories;
+
+public class EducationRepository : IEducationRepository
 {
-    public class EducationRepository : IEducationRepository
+    private readonly BlogDbContext _dbContext;
+
+    public EducationRepository(BlogDbContext dbContext)
     {
-        private readonly BlogDbContext _dbContext;
+        _dbContext = dbContext;
+    }
 
-        public EducationRepository(BlogDbContext dbContext)
+    public void AddEducation(Education education)
+    {
+        _dbContext.Add(education);
+        _dbContext.SaveChanges();
+    }
+
+    public bool DeleteEducation(Guid id)
+    {
+        var education = _dbContext.Educations.Find(new EducationId(id));
+        if(education is null)
         {
-            _dbContext = dbContext;
+            return false;
         }
+        _dbContext.Educations.Remove(education);
+        _dbContext.SaveChanges();
+        return true;
+    }
 
-        public void AddEducation(Education education)
-        {
-            _dbContext.Add(education);
-            _dbContext.SaveChanges();
-        }
+    public async Task<IEnumerable<Education>> GetAllEducationsAsync()
+    {
+        IEnumerable<Education> response = await _dbContext.Educations.AsNoTracking().OrderByDescending(e => e.EndDate).ToListAsync();
+        return response;
+    }
 
-        public bool DeleteEducation(Guid id)
-        {
-            var education = _dbContext.Educations.Find(new EducationId(id));
-            if(education is null)
-            {
-                return false;
-            }
-            _dbContext.Educations.Remove(education);
-            _dbContext.SaveChanges();
-            return true;
-        }
+    public async Task<Education?> GetEducationByIdAsync(Guid id)
+    {
+        var response = await _dbContext.Educations
+            .Include(education => education.EducationSection)
+            .FirstOrDefaultAsync(edu => edu.Id.Equals(new EducationId(id)));
 
-        public async Task<IEnumerable<Education>> GetAllEducations()
-        {
-            IEnumerable<Education> response = await _dbContext.Educations.AsNoTracking().OrderByDescending(e => e.EndDate).ToListAsync();
-            return response;
-        }
+        return response;
+    }
 
-        public async Task<Education?> GetEducationById(Guid id)
-        {
-            var response = await _dbContext.Educations
-                .Include(education => education.EducationSection)
-                .FirstOrDefaultAsync(edu => edu.Id.Equals(new EducationId(id)));
-
-            return response;
-        }
+    public async Task<bool> UpdateEducationAsync(Education education)
+    {
+        _dbContext.Educations.Update(education);
+        await _dbContext.SaveChangesAsync();
+        return true;
     }
 }

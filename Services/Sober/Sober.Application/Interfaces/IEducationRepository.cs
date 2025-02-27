@@ -1,12 +1,12 @@
 ﻿using Sober.Domain.Aggregates.EducationAggregate;
 
-namespace Sober.Application.Interfaces
+namespace Sober.Application.Interfaces;
+
+public interface IEducationRepository
 {
-    public interface IEducationRepository
-    {
-        void AddEducation(Education education);
-        bool DeleteEducation(Guid id);
-        Task<IEnumerable<Education>> GetAllEducations();
-        Task<Education> GetEducationById(Guid id);
-    }
+    void AddEducation(Education education);
+    Task<bool> UpdateEducationAsync(Education education);
+    bool DeleteEducation(Guid id);
+    Task<IEnumerable<Education>> GetAllEducationsAsync();
+    Task<Education> GetEducationByIdAsync(Guid id);
 }

@@ -7,13 +7,13 @@ namespace Sober.Domain.Aggregates.EducationAggregate
 {
     public sealed class Education : AggregateRoot<EducationId>
     {
-        private readonly List<EducationSection> _educationSection = new();
-        public string InstituteName { get; private set; } = null!;
-        public string? InstituteLogo { get; private set; }
-        public string Department { get; private set; } = null!;
-        public bool IsCurrentStudent { get; private set; }
-        public DateTime StartDate { get ; private set; }
-        public DateTime? EndDate { get; private set; }
+       readonly List<EducationSection> _educationSection = new();
+        public string InstituteName { get; set; } = null!;
+        public string? InstituteLogo { get; set; }
+        public string Department { get; set; } = null!;
+        public bool IsCurrentStudent { get; set; }
+        public DateTime StartDate { get ; set; }
+        public DateTime? EndDate { get; set; }
         public UserId UserId { get; private set; }
         public ICollection<EducationSection> EducationSection => _educationSection;
 

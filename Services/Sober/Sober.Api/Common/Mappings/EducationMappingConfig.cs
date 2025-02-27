@@ -28,6 +28,21 @@ namespace Sober.Api.Common.Mappings
             config.NewConfig<EducationSection, EducationSectionResponse>()
                 .Map(dest => dest.EducationSectionId, src => src.Id.Value)
                 .Map(dest => dest.SectionDescription, src => src.SectionDescription);
+
+
+            config.NewConfig<(UpdateEducationRequest Request, Guid EducationId, Guid UserId, string LogoPath), UpdateEducationCommand>()
+                .Map(dest => dest.EducationId, src => src.EducationId)
+                .Map(dest => dest.UserId, src => src.UserId)
+                .Map(dest => dest.InstituteName, src => src.Request.InstituteName)
+                .Map(dest => dest.InstituteLogo, src => src.LogoPath)
+                .Map(dest => dest.Department, src => src.Request.Department)
+                .Map(dest => dest.IsCurrentStudent, src => src.Request.IsCurrentStudent)
+                .Map(dest => dest.StartDate, src => src.Request.StartDate)
+                .Map(dest => dest.EndDate, src => src.Request.EndDate)                
+                .Map(dest => dest.EducationSection, src => src.Request.EducationSection.Adapt<List<UpdateEducationSectionCommand>>());
+
+            config.NewConfig<UpdateEducationSectionRequest, UpdateEducationSectionCommand>()
+                .Map(dest => dest.SectionDescription, src => src.SectionDescription);
         }
     }
 }
