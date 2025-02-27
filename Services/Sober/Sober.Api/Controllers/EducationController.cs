@@ -71,7 +71,6 @@ public class EducationController : ApiController
         return Ok(response);
     }
 
-    [AllowAnonymous]
     [HttpPut("update/{educationId}/user/{userId}")]
     public async Task<IActionResult> UpdateEducationAsync([FromForm] UpdateEducationRequest request, Guid educationId, Guid userId)
     {
