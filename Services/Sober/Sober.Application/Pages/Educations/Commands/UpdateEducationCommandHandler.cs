@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
+using Sober.Application.Common.Interfaces.Services;
 using Sober.Application.CustomExceptions.NotFoundExceptions;
 using Sober.Application.Interfaces;
 using Sober.Domain.Aggregates.EducationAggregate;
@@ -11,10 +12,12 @@ public class UpdateEducationCommandHandler
     : IRequestHandler<UpdateEducationCommand, ErrorOr<Education>>
 {
     private readonly IEducationRepository _educationRepository;
+    private readonly IFileService _fileService;
 
-    public UpdateEducationCommandHandler(IEducationRepository educationRepository)
+    public UpdateEducationCommandHandler(IEducationRepository educationRepository, IFileService fileService)
     {
         _educationRepository = educationRepository;
+        _fileService = fileService;
     }
 
     public async Task<ErrorOr<Education>> Handle(UpdateEducationCommand request, CancellationToken cancellationToken)
@@ -24,6 +27,10 @@ public class UpdateEducationCommandHandler
         if(education is null)
         {
             throw new EducationNotFoundException(request.EducationId);
+        }
+        if(request.InstituteLogo is not null)
+        {
+            _fileService.DeleteFileAsync(education.InstituteLogo);
         }
 
         education.InstituteName = request.InstituteName ?? education.InstituteName;

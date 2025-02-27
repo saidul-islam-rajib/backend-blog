@@ -56,4 +56,23 @@ public class FileService : IFileService
 
         return $"/uploads/{uniqueFileName}";
     }
+
+    public bool DeleteFileAsync(string filePath)
+    {
+        if(filePath is null)
+        {
+            return false;
+        }
+
+        string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+        string fileName = Path.GetFileName(filePath);
+        string fileToDelete = Path.Combine(uploadsFolder, fileName);
+        if (File.Exists(fileToDelete))
+        {
+            File.Delete(fileToDelete);
+            return true;
+        }
+
+        return false;
+    }
 }
