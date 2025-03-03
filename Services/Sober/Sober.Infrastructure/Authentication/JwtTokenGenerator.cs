@@ -32,7 +32,7 @@ namespace Sober.Infrastructure.Authentication
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()!),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()!),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.Name),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
