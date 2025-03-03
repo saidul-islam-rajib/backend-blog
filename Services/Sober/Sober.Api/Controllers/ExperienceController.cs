@@ -43,8 +43,8 @@ public class ExperienceController : ApiController
     }
 
     [HttpPut]
-    [Route("user/{userId}/update-experience/{experienceId}")]
-    public async Task<IActionResult> UpdateExperienceAsync(ExperienceRequest request, Guid userId, Guid experienceId)
+    [Route("update-experience/{experienceId}/user/{userId}")]
+    public async Task<IActionResult> UpdateExperienceAsync([FromForm] ExperienceRequest request, Guid userId, Guid experienceId)
     {
         var command = _mapper.Map<UpdateExperienceCommand>((request, userId, experienceId));
         var result = await _mediator.Send(command);
