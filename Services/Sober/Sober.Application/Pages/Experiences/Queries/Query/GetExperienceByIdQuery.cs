@@ -3,8 +3,4 @@ using Sober.Domain.Aggregates.ExperienceAggregate;
 
 namespace Sober.Application.Pages.Experiences.Queries.Query;
 
-public record GetExperienceQuery() : IRequest<IEnumerable<Experience>>
-{
-}
-
-
+public record GetExperienceByIdQuery(Guid experienceId) : IRequest<Experience>;

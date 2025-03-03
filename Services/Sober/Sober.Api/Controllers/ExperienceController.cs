@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sober.Api.Controllers.Base;
 using Sober.Application.Common.Interfaces.Services;
+using Sober.Application.Pages.Educations.Queries.Query;
 using Sober.Application.Pages.Experiences.Commands;
 using Sober.Application.Pages.Experiences.Queries.Query;
 using Sober.Contracts.Request;
@@ -70,6 +71,22 @@ public class ExperienceController : ApiController
         IEnumerable<Experience> experiences = await _mediator.Send(query);
         var response = _mapper.Map<IEnumerable<ExperienceResponse>>(experiences);
 
+        return Ok(response);
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("get-by-id/{experienceId}")]
+    public async Task<IActionResult> GetExperienceById(Guid experienceId)
+    {
+        var query = new GetExperienceByIdQuery(experienceId);
+        var experience = await _mediator.Send(query);
+        if (experience is null)
+        {
+            return NotFound();
+        }
+
+        var response = _mapper.Map<ExperienceResponse>(experience);
         return Ok(response);
     }
 }
