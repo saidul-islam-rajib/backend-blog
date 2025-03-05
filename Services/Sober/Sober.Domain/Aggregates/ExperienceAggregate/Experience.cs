@@ -14,7 +14,7 @@ namespace Sober.Domain.Aggregates.ExperienceAggregate
         public string Designation { get; set; } = null!;
         public bool IsCurrentEmployee { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public bool IsFullTimeEmployee { get; set; }
         public UserId UserId { get; set; }
         public ICollection<ExperienceSection> ExperienceSection => _experienceSection;
@@ -30,7 +30,7 @@ namespace Sober.Domain.Aggregates.ExperienceAggregate
             bool isFullTimeEmployee,
             List<ExperienceSection> experienceSection,
             DateTime startDate,
-            DateTime endDate
+            DateTime? endDate
             ) : base(experienceId)
         {
             UserId = userId;
@@ -55,7 +55,7 @@ namespace Sober.Domain.Aggregates.ExperienceAggregate
             bool isFullTimeEmployee,
             List<ExperienceSection> experienceSection,
             DateTime startDate,
-            DateTime endDate
+            DateTime? endDate
             )
         {
             Experience response = new Experience(

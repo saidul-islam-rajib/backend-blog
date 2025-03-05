@@ -11,7 +11,7 @@ namespace Sober.Contracts.Request
         bool IsFullTimeEmployee,
         List<ExperienceSectionRequest> ExperienceSection,
         DateTime StartDate,
-        DateTime EndDate);
+        DateTime? EndDate);
 
     public record ExperienceSectionRequest(string SectionDescription);
 }

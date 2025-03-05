@@ -4,7 +4,6 @@ using Sober.Application.CustomExceptions.NotFoundExceptions;
 using Sober.Application.Interfaces;
 using Sober.Domain.Aggregates.ExperienceAggregate;
 using Sober.Domain.Aggregates.ExperienceAggregate.Entities;
-using Sober.Domain.Aggregates.ExperienceAggregate.ValueObjects;
 
 namespace Sober.Application.Pages.Experiences.Commands;
 
@@ -52,15 +51,30 @@ public class UpdateExperienceCommandHandler : IRequestHandler<UpdateExperienceCo
         return existingExperience;
     }
 
-    private T? UpdateIfChanged<T>(T? existingValue, T? newValue) where T : IEquatable<T>
+    //private T? UpdateIfChanged<T>(T? existingValue, T? newValue) where T : IEquatable<T>
+    //{
+    //    if(newValue is null)
+    //    {
+    //        return existingValue;
+    //    }
+
+    //    return !EqualityComparer<T>.Default.Equals(existingValue, newValue) ? newValue : existingValue;
+    //}
+    private static T UpdateIfChanged<T>(T existingValue, T newValue)
     {
-        if(newValue is null)
+        if (newValue == null)
         {
             return existingValue;
         }
 
-        return !EqualityComparer<T>.Default.Equals(existingValue, newValue) ? newValue : existingValue;
+        if (!EqualityComparer<T>.Default.Equals(existingValue, newValue))
+        {
+            return newValue;
+        }
+
+        return existingValue;
     }
+
 
     private void UpdateExperienceSections(
     ICollection<ExperienceSection> existingSections,

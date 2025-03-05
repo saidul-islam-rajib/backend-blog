@@ -14,7 +14,7 @@ namespace Sober.Application.Pages.Experiences.Commands
         bool IsFullTimeEmployee,
         List<ExperienceSectionCommand> ExperienceSection,
         DateTime StartDate,
-        DateTime EndDate
+        DateTime? EndDate
         ) : IRequest<ErrorOr<Experience>>;
 
     public record ExperienceSectionCommand(string sectionDescription);
