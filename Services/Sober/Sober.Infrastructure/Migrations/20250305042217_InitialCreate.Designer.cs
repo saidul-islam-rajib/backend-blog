@@ -12,7 +12,7 @@ using Sober.Infrastructure.Persistence;
 namespace Sober.Infrastructure.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20250227081443_InitialCreate")]
+    [Migration("20250305042217_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -141,7 +141,7 @@ namespace Sober.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsCurrentEmployee")

@@ -22,7 +22,7 @@ namespace Sober.Infrastructure.Migrations
                     Designation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IsCurrentEmployee = table.Column<bool>(type: "bit", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsFullTimeEmployee = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
