@@ -9,6 +9,7 @@ using Sober.Application.Pages.Experiences.Commands;
 using Sober.Application.Pages.Experiences.Queries.Query;
 using Sober.Contracts.Request;
 using Sober.Contracts.Response;
+using Sober.Domain.Aggregates.EducationAggregate.ValueObjects;
 using Sober.Domain.Aggregates.ExperienceAggregate;
 
 namespace Sober.Api.Controllers;
@@ -88,5 +89,22 @@ public class ExperienceController : ApiController
 
         var response = _mapper.Map<ExperienceResponse>(experience);
         return Ok(response);
+    }
+
+    [HttpDelete("delete-experience/{experienceId}/user/{userId}")]
+    public async Task<IActionResult> DeleteExperienceAsync(Guid experienceId, Guid userId)
+    {
+        var command = new DeleteExperienceCommand(experienceId, userId);
+        var result = await _mediator.Send(command);
+        if (result)
+        {
+            return Ok(new
+            {
+                Success = true,
+                Message = $"Experience with ID `{experienceId}` has been successfully deleted."
+            });
+        }
+
+        return NotFound($"Experience with ID {experienceId} not found.");
     }
 }
