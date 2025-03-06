@@ -8,6 +8,8 @@ using Sober.Application.Pages.UserInterests.Commands;
 using Sober.Application.Pages.UserInterests.Queries;
 using Sober.Contracts.Request;
 using Sober.Contracts.Response;
+using Sober.Domain.Aggregates.EducationAggregate;
+using Sober.Domain.Aggregates.EducationAggregate.ValueObjects;
 
 namespace Sober.Api.Controllers;
 
@@ -66,5 +68,41 @@ public class InterestController : ApiController
 
         var response = _mapper.Map<InterestResponse>(interest);
         return Ok(response);
+    }
+
+    [HttpPut("update-interest/{interestId}/user/{userId}")]
+    public async Task<IActionResult> UpdateInterest([FromForm] UpdateInterestRequest request, Guid interestId, Guid userId)
+    {
+        string logoPath = await _fileService.SaveFileAsync(request.Image);
+        var command = _mapper.Map<UpdateInterestCommand>((request, interestId, userId, logoPath));
+        var result = await _mediator.Send(command);
+
+        var response = result.Match(
+            success => Ok(new
+            {
+                Success = true,
+                Message = $"Interest with ID `{interestId}` has been successfully updated by User `{userId}`.",
+                Data = _mapper.Map<InterestResponse>(success)
+            }),
+            errors => Problem(errors)
+        );
+        return Ok(response);
+    }
+
+    [HttpDelete("delete-interest/{interestId}/user/{userId}")]
+    public async Task<IActionResult> DeleteInterest(Guid interestId, Guid userId)
+    {
+        var command = new DeleteInterestCommand(interestId, userId);
+        var result = await _mediator.Send(command);
+        if (result)
+        {
+            return Ok(new
+            {
+                Success = true,
+                Message = $"Interest with ID `{interestId}` has been successfully deleted."
+            });
+        }
+
+        return NotFound($"Interest with ID {interestId} not found.");
     }
 }

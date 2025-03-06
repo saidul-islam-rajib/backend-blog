@@ -49,24 +49,7 @@ public class InterestRepository : IInterestRepository
 
     public async Task<bool> UpdateInterestAsync(Interest interest)
     {
-        var existingInterest = await _dbContext.Interests
-                        .Include(p => p.Keys)
-                        .FirstOrDefaultAsync(p => p.Id == interest.Id);
-
-        if (existingInterest is null)
-        {
-            return false;
-        }
-
-        // Update properties of the existing publicatoin
-        existingInterest.Title = interest.Title;
-
-        existingInterest.Keys.Clear();
-        foreach (var key in existingInterest.Keys)
-        {
-            existingInterest.Keys.Add(key);
-        }
-
+        _dbContext.Interests.Update(interest);
         await _dbContext.SaveChangesAsync();
         return true;
     }

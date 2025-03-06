@@ -27,7 +27,7 @@ public class DeleteEducationCommandHandler
         }
 
         bool isDeleted = _educationRepository.DeleteEducation(request.educationId);
-        if (isDeleted)
+        if (isDeleted && education.InstituteLogo is not null)
         {
             _fileService.DeleteFileAsync(education.InstituteLogo);
         }

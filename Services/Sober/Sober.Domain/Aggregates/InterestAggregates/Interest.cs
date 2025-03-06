@@ -32,6 +32,11 @@ public sealed class Interest : AggregateRoot<InterestId>
         Interest response = new Interest(InterestId.CreateUnique(), title, userId, keys, image);
         return response;
     }
+    public static Interest Update(InterestId interestId, UserId userId, string title, List<InterestKey> keys, string? image)
+    {
+        Interest response = new Interest(interestId, title, userId, keys, image);
+        return response;
+    }
 
     public Interest()
     {

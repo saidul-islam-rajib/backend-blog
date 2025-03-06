@@ -17,6 +17,12 @@ public sealed class InterestKey : Entity<InterestKeyId>
         InterestKey interestKey = new InterestKey(InterestKeyId.CreateUnique(), key);
         return interestKey;
     }
+    
+    public static InterestKey Update(InterestKeyId interestKeyId, string key)
+    {
+        InterestKey interestKey = new InterestKey(interestKeyId, key);
+        return interestKey;
+    }
 
     public InterestKey()
     {
