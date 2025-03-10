@@ -50,27 +50,28 @@ public class PublicationRepository : IPublicationRepository
 
     public async Task<bool> UpdatePublicationAsync(Publication publication)
     {
-        var existingPublication = await _dbContext.Publications
-                        .Include(p => p.Keys)
-                        .FirstOrDefaultAsync(p => p.Id == publication.Id);
+        //var existingPublication = await _dbContext.Publications
+        //                .Include(p => p.Keys)
+        //                .FirstOrDefaultAsync(p => p.Id == publication.Id);
 
-        if(existingPublication is null)
-        {
-            return false;
-        }
+        //if(existingPublication is null)
+        //{
+        //    return false;
+        //}
 
-        // Update properties of the existing publicatoin
-        existingPublication.Title = publication.Title;
-        existingPublication.Summary = publication.Summary;
-        existingPublication.JournalName = publication.JournalName;
-        existingPublication.Date = publication.Date;
+        //// Update properties of the existing publicatoin
+        //existingPublication.Title = publication.Title;
+        //existingPublication.Summary = publication.Summary;
+        //existingPublication.JournalName = publication.JournalName;
+        //existingPublication.Date = publication.Date;
 
-        existingPublication.Keys.Clear();
-        foreach(var key in existingPublication.Keys)
-        {
-            existingPublication.Keys.Add(key);
-        }
+        //existingPublication.Keys.Clear();
+        //foreach(var key in existingPublication.Keys)
+        //{
+        //    existingPublication.Keys.Add(key);
+        //}
 
+        _dbContext.Publications.Update(publication);
         await _dbContext.SaveChangesAsync();
         return true;
 

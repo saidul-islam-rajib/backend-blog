@@ -101,5 +101,6 @@ namespace Sober.Api.ErrorHandling.ProlemDetailFactory
                 problemDetails.Extensions.Add("errorCode", errors.Select(e => e.Code));
             }
         }
+    
     }
 }

@@ -14,7 +14,7 @@ public sealed class Publication : AggregateRoot<PublicationId>
     public string Summary { get; set; } = null!;
     public DateTime? Date { get; set; }
     public UserId UserId { get; private set; } = null!;
-    public ICollection<PublicationKey> Keys => _keys.AsReadOnly();
+    public ICollection<PublicationKey> Keys => _keys;
 
     private Publication(
         PublicationId publicationId,        
