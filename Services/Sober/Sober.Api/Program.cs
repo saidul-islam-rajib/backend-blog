@@ -18,10 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
     {
         options.AddPolicy("Rajib", policy =>
         {
-            policy.WithOrigins("http://localhost:4200")
-                  .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials();
+            policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
         });
     });
 }
