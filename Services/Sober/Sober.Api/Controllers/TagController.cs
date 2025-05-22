@@ -7,6 +7,7 @@ using Sober.Api.Controllers.Base;
 using Sober.Application.Pages.Tags.Commands;
 using Sober.Application.Pages.Tags.Queries;
 using Sober.Application.Pages.Topics.Queries.Query;
+using Sober.Application.Pages.UserInterests.Queries;
 using Sober.Contracts.Request;
 using Sober.Contracts.Response;
 using Sober.Contracts.Response.Skills;
@@ -36,6 +37,23 @@ public class TagController : ApiController
 
         return Ok(response);
     }
+
+    [AllowAnonymous]
+    [HttpGet]
+    [Route("{tagId}")]
+    public async Task<IActionResult> GetTagById(Guid tagId)
+    {
+        var query = new GetTagByIdQuery(tagId);
+        var tag = await _mediator.Send(query);
+        if (tag is null)
+        {
+            return NotFound();
+        }
+
+        var response = _mapper.Map<TagResponse>(tag);
+        return Ok(response);
+    }
+
 
     [HttpPost]
     [Route("user/{userId}/create")]
