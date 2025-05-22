@@ -63,7 +63,7 @@ public class GetTagByIdQueryHandler : IRequestHandler<GetTagByIdQuery, TagRespon
                 SlidingExpiration = TimeSpan.FromMinutes(10)
             };
 
-            var serialized = JsonSerializer.Serialize(tag);
+            var serialized = JsonSerializer.Serialize(mappedTag);
             await _cache.SetStringAsync(cacheKey, serialized, cacheOptions, cancellationToken);
         }
 
