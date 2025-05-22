@@ -22,7 +22,8 @@ namespace Sober.Infrastructure
         {
             services
                 .AddAuth(configuration)
-                .AddPersistance(configuration);
+                .AddPersistance(configuration)
+                .AddRedis(configuration);
 
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             services.AddSingleton<IFileService, FileService>();

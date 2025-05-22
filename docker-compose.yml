@@ -1,6 +1,8 @@
 services:
   personalblogdb:
     image: mcr.microsoft.com/mssql/server
+  distributedcache:
+    image: redis
 
   sober.api:
     image: ${DOCKER_REGISTRY-}soberapi
