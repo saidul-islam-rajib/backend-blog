@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Sober.Domain.Aggregates.TagAggregates;
+using Sober.Contracts.Response;
 
 namespace Sober.Application.Pages.Tags.Queries;
 
 public record GetAllTagQuery
-    : IRequest<IEnumerable<Tag>>
+    : IRequest<IEnumerable<TagResponse>>
 {
 }
